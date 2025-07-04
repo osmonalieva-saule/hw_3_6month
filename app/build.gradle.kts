@@ -3,6 +3,8 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
     id("org.jetbrains.kotlin.plugin.serialization") version "1.9.23"
+    //id("androidx.room")
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -45,6 +47,13 @@ android {
 }
 
 dependencies {
+
+    val room_version = "2.7.2"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    //ksp(libs.androidx.room.compiler)
+    ksp("androidx.room:room-compiler:$room_version")
+
     implementation(libs.logging.interceptor)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation (libs.converter.gson)

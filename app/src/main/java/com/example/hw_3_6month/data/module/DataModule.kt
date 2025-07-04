@@ -1,15 +1,19 @@
 package com.example.hw_3_6month.data.module
 
+import androidx.room.Room
 import com.example.hw_3_6month.BuildConfig
 import com.example.hw_3_6month.data.api.CharacterApiService
 import com.example.hw_3_6month.data.repository.CharacterRepository
 import com.example.hw_3_6month.data.repository.EpisodeRepository
+import com.example.hw_3_6month.data.repository.FavoritesRepository
 import com.example.hw_3_6month.data.repository.LocationRepository
 import com.example.hw_3_6month.data.repository.LocationRepositoryImpl
+import com.example.hw_3_6month.data.room.AppDatabase
 import com.example.hw_3_6month.ui.screens.characters.CharacterDetailViewModel
 import com.example.hw_3_6month.ui.screens.characters.CharacterViewModel
 import com.example.hw_3_6month.ui.screens.episodes.EpisodeDetailViewModel
 import com.example.hw_3_6month.ui.screens.episodes.EpisodeListViewModel
+import com.example.hw_3_6month.ui.screens.favorites.FavoritesViewModel
 import com.example.hw_3_6month.ui.screens.locations.LocationDetailViewModel
 import com.example.hw_3_6month.ui.screens.locations.LocationListViewModel
 import okhttp3.OkHttpClient
@@ -39,6 +43,7 @@ val dataModule = module {
 
     viewModel { LocationListViewModel(get()) }
     viewModel { LocationDetailViewModel(get()) }
+
 }
 
 private fun provideLoggingInterceptor(): HttpLoggingInterceptor {

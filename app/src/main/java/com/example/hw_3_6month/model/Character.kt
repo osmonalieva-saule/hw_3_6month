@@ -1,10 +1,5 @@
 package com.example.hw_3_6month.model
 
-
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Color.Companion.Gray
-import androidx.compose.ui.graphics.Color.Companion.Green
-import androidx.compose.ui.graphics.Color.Companion.Red
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -14,22 +14,24 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarColors
-import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.colorResource
 import androidx.navigation.NavController
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.hw_3_6month.ui.Screens.characters.CharacterDetailScreen
-import com.example.hw_3_6month.ui.Screens.characters.CharactersScreen
-import com.example.hw_3_6month.ui.Screens.locations.LocationsScreen
-import com.example.hw_3_6month.ui.Screens.episodes.EpisodesScreen
+import androidx.navigation.navArgument
+import com.example.hw_3_6month.ui.screens.characters.CharacterDetailScreen
+import com.example.hw_3_6month.ui.screens.characters.CharactersScreen
+import com.example.hw_3_6month.ui.screens.episodes.EpisodeDetailScreen
+import com.example.hw_3_6month.ui.screens.locations.LocationsScreen
+import com.example.hw_3_6month.ui.screens.episodes.EpisodesScreen
+import com.example.hw_3_6month.ui.screens.locations.LocationDetailScreen
 import com.example.hw_3_6month.ui.theme.DarkGray
 import com.example.hw_3_6month.ui.theme.Gray
 
@@ -37,7 +39,7 @@ data class BottomNavItem(val screen: Screen, val icon: ImageVector)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun App() {
+fun app() {
     val navController = rememberNavController()
     val navBackStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = navBackStackEntry?.destination?.route
@@ -80,17 +82,40 @@ fun App() {
                 CharactersScreen(navController)
             }
             composable(Screen.Locations.route) {
-                LocationsScreen()
+                LocationsScreen(navController = navController)
             }
             composable(Screen.Episodes.route) {
-                EpisodesScreen()
+                EpisodesScreen(navController = navController)
             }
-            composable("${Screen.CharacterDetail.route}/{characterJson}") { backStackEntry ->
-                CharacterDetailScreen(
-                    characterJson = backStackEntry.arguments?.getString("characterJson"),
-                    navController = navController
-                )
+            composable(
+                route = "character_detail/{characterId}",
+                arguments = listOf(navArgument("characterId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val characterId = backStackEntry.arguments?.getInt("characterId") ?: 0
+                CharacterDetailScreen(characterId)
             }
+            composable(Screen.Episodes.route) {
+                EpisodesScreen(navController = navController)
+            }
+            composable(
+                route = "episode_detail/{episodeId}",
+                arguments = listOf(navArgument("episodeId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("episodeId") ?: 0
+                EpisodeDetailScreen(episodeId = id)
+            }
+
+            composable(Screen.Locations.route) {
+                LocationsScreen(navController = navController)
+            }
+            composable(
+                route = "location_detail/{locationId}",
+                arguments = listOf(navArgument("locationId") { type = NavType.IntType })
+            ) { backStackEntry ->
+                val id = backStackEntry.arguments?.getInt("locationId") ?: 0
+                LocationDetailScreen(locationId = id)
+            }
+
         }
     }
 }

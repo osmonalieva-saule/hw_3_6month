@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.hw_3_6month.ui.navigation.App
+import com.example.hw_3_6month.ui.navigation.app
 import com.example.hw_3_6month.ui.theme.Hw_3_6monthTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             Hw_3_6monthTheme {
-                App()
+               app()
             }
         }
     }

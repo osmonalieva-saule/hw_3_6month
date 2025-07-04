@@ -48,11 +48,9 @@ dependencies {
     implementation(libs.logging.interceptor)
     implementation(libs.retrofit2.kotlinx.serialization.converter)
     implementation (libs.converter.gson)
-
-    implementation(libs.koin.androidx.compose)
-    implementation(libs.koin.compose.viewmodel)
-    implementation(libs.koin.androidx.compose)
+    implementation (libs.koin.androidx.compose)
     implementation(platform(libs.koin.bom))
+    implementation (libs.koin.android)
     implementation(libs.retrofit2)
 
     implementation(libs.androidx.navigation.compose)

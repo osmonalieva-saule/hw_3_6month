@@ -1,4 +1,4 @@
-package com.example.hw_3_6month.ui.Screens.characters
+package com.example.hw_3_6month.ui.screens.characters
 
 import android.net.Uri
 import androidx.compose.foundation.Image
@@ -12,14 +12,16 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -33,84 +35,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.compose.ui.graphics.ColorFilter.Companion
-import androidx.wear.ongoing.Status
 import coil.compose.rememberAsyncImagePainter
 import com.example.hw_3_6month.R
 import com.example.hw_3_6month.ui.navigation.Screen
 import com.example.hw_3_6month.ui.theme.Gray
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.json.Json
-import com.example.hw_3_6month.model.Status.*
 import com.example.hw_3_6month.model.Character
+import com.example.hw_3_6month.model.Status
 import com.example.hw_3_6month.ui.theme.DarkGray
+import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun CharactersScreen(navController: NavController) {
-    val characters = listOf(
-        com.example.hw_3_6month.model.Character(
-            id = 1,
-            name = "Dracula",
-            status = Dead,
-            image = "https://rickandmortyapi.com/api/character/avatar/709.jpeg",
-            species = "Mythological Creature",
-            gender = "Male",
-            location = "Interdimensional Cable"
-        ),
-        Character(
-            id = 1,
-            name = "Dracula",
-            status = Dead,
-            image = "https://rickandmortyapi.com/api/character/avatar/709.jpeg",
-            species = "Mythological Creature",
-            gender = "Male",
-            location = "Interdimensional Cable"
-        ),
-        Character(
-            id = 1,
-            name = "Dracula",
-            status = unknown,
-            image = "https://rickandmortyapi.com/api/character/avatar/709.jpeg",
-            species = "Mythological Creature",
-            gender = "Male",
-            location = "Interdimensional Cable"
-        ),
-        Character(
-            id = 1,
-            name = "Dracula",
-            status = Dead,
-            image = "https://rickandmortyapi.com/api/character/avatar/709.jpeg",
-            species = "Mythological Creature",
-            gender = "Male",
-            location = "Interdimensional Cable"
-        ),
-        Character(
-            id = 1,
-            name = "Dracula",
-            status = Alive,
-            image = "https://rickandmortyapi.com/api/character/avatar/709.jpeg",
-            species = "Mythological Creature",
-            gender = "Male",
-            location = "Interdimensional Cable"
-        ),
-        Character(
-            id = 1,
-            name = "Dracula",
-            status = unknown,
-            image = "https://rickandmortyapi.com/api/character/avatar/709.jpeg",
-            species = "Mythological Creature",
-            gender = "Male",
-            location = "Interdimensional Cable"
-        ),
-        Character(
-            id = 1,
-            name = "Dracula",
-            status = unknown,
-            image = "https://rickandmortyapi.com/api/character/avatar/709.jpeg",
-            species = "Mythological Creature",
-            gender = "Male",
-            location = "Interdimensional Cable"
-        ),
-    )
+fun CharactersScreen(navController: NavController,
+                     viewModel: CharacterViewModel = getViewModel()
+) {
+    val characters by viewModel.characters.collectAsState()
 
     LazyColumn(
         modifier = Modifier
@@ -137,8 +75,7 @@ fun CharactersItem(
             containerColor = Gray
         ),
         onClick = {
-            val json = Uri.encode(Json.encodeToString(character))
-            navController.navigate("${Screen.CharacterDetail.route}/$json")
+            navController.navigate("character_detail/${character.id}")
         }
     ) {
         Row(
@@ -176,9 +113,9 @@ fun CharactersItem(
                             R.drawable.circle
                         ),
                         colorFilter = when (character.status) {
-                            Dead -> Companion.tint(Red)
-                            Alive -> Companion.tint(Green)
-                            unknown -> Companion.tint(Gray)
+                            Status.Dead -> Companion.tint(Red)
+                            Status.Alive -> Companion.tint(Green)
+                            Status.unknown -> Companion.tint(Gray)
                         }
 
                     )
